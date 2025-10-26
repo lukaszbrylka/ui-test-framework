@@ -24,6 +24,10 @@ public class UserBuilder {
 
     public UserDTO build() {
         UserDTO user = new UserDTO();
+
+        if (email == null || password == null || username == null) {
+            throw new IllegalStateException("All fields must be set");
+        }
         user.setEmail(email);
         user.setPassword(password);
         user.setUsername(username);
