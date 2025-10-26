@@ -5,15 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class LoginPage extends BasePage {
 
-public class LoginPage {
-    private final WebDriver driver;
-    private final WebDriverWait wait;
-    private static final Duration SHORT_WAIT = Duration.ofSeconds(10);
 
     @FindBy(xpath = "//input[@type='email']")
     private WebElement emailInput;
@@ -21,18 +15,18 @@ public class LoginPage {
     @FindBy(xpath = "//input[@type='password']")
     private WebElement passwordInput;
 
-    @FindBy(xpath = "//button[contains(text(),'Login')]")
+    @FindBy(xpath = "//button[@class='btn btn-lg btn-primary pull-xs-right']")
     private WebElement loginButton;
 
-    @FindBy(xpath = "//h1[text()='Sign in']")
+    @FindBy(xpath = "//h1[@class='text-xs-center']")
     private WebElement loginHeadline;
 
     @FindBy(xpath = "//ul[@class='error-messages']/li")
     private WebElement errorMessageContainer;
 
+
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, SHORT_WAIT);
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 
@@ -54,18 +48,16 @@ public class LoginPage {
     }
 
     public HomePage submitLogin(UserDTO user) {
-        return enterEmail(user.getEmail())
-                .enterPassword(user.getPassword())
-                .clickLogin();
+        return enterEmail(user.getEmail()).enterPassword(user.getPassword()).clickLogin();
     }
 
     public boolean isLoginPageVisible() {
-        wait.until(ExpectedConditions.visibilityOf(loginHeadline));
+        waitForVisibility(loginHeadline);
         return loginHeadline.isDisplayed();
     }
 
     public String getErrorMessageText() {
-        wait.until(ExpectedConditions.visibilityOf(errorMessageContainer));
+        waitForVisibility(errorMessageContainer);
         return errorMessageContainer.getText();
     }
 }

@@ -4,15 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class HomePage extends BasePage {
 
-public class HomePage {
-    private final WebDriver driver;
-    private final WebDriverWait wait;
-    private static final Duration SHORT_WAIT = Duration.ofSeconds(10);
 
     @FindBy(xpath = "//li/a[@href='#/']")
     private WebElement homeNavBarButton;
@@ -29,9 +23,9 @@ public class HomePage {
     @FindBy(xpath = "//li/div[./img[@class='user-pic']]")
     private WebElement userAvatar;
 
+
     public HomePage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, SHORT_WAIT);
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 
@@ -46,12 +40,12 @@ public class HomePage {
     }
 
     public boolean isUserLoggedIn() {
-        wait.until(ExpectedConditions.visibilityOf(userAvatar));
+        waitForVisibility(userAvatar);
         return userAvatar.isDisplayed();
     }
 
     public boolean isUserLoggedOut() {
-        wait.until(ExpectedConditions.visibilityOf(homePageBanner));
+        waitForVisibility(homePageBanner);
         return homePageBanner.isDisplayed();
     }
 
