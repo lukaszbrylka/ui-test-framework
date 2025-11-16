@@ -1,15 +1,10 @@
 package com.lukasz.ui.tests;
 
 import com.lukasz.ui.data.UserFactory;
-import com.lukasz.ui.driver.DriverManager;
 import com.lukasz.ui.models.UserDTO;
-import com.lukasz.ui.pages.HomePage;
-import com.lukasz.ui.pages.LoginPage;
+import com.lukasz.ui.steps.LoginSteps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTest extends BaseTest {
 
@@ -22,27 +17,19 @@ public class LoginTest extends BaseTest {
 
     @Test
     void testExistingUserSuccessfulLogin() {
-        HomePage loggedInHomePage = new HomePage(DriverManager.driver())
+        new LoginSteps(driver)
                 .goToLoginPage()
-                .submitLogin(existingUser);
-
-        assertTrue(loggedInHomePage.isUserLoggedIn(), "User should be logged in");
-        assertEquals(existingUser.getUsername(), loggedInHomePage.getUserNameFromNavBar(),
-                "Username in navbar should match expected");
+                .submitLogin(existingUser)
+                .verifyUserIsLoggedIn(existingUser.getUsername());
     }
 
     @Test
     void testExistingUserInvalidPasswordUnsuccessfulLogin() {
         existingUser.setPassword("invalid");
 
-        LoginPage loginPage = new HomePage(DriverManager.driver())
-                .goToLoginPage();
-
-        loginPage.submitLogin(existingUser);
-
-        String actualErrorMessageText = loginPage.getErrorMessageText().trim();
-        String expectedErrorMessageText = "Wrong email/password combination";
-        assertEquals(expectedErrorMessageText, actualErrorMessageText,
-                "Error message should indicate wrong credentials");
+        new LoginSteps(driver)
+                .goToLoginPage()
+                .submitLogin(existingUser)
+                .verifyErrorMessage("Wrong email/password combination");
     }
 }
