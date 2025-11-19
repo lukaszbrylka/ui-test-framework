@@ -1,13 +1,11 @@
 package com.lukasz.ui.pages;
 
-import com.lukasz.ui.models.UserDTO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
-
 
     @FindBy(xpath = "//input[@type='email']")
     private WebElement emailInput;
@@ -23,7 +21,6 @@ public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//ul[@class='error-messages']/li")
     private WebElement errorMessageContainer;
-
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -42,13 +39,8 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public HomePage clickLogin() {
+    public void clickLogin() {
         loginButton.click();
-        return new HomePage(driver);
-    }
-
-    public HomePage submitLogin(UserDTO user) {
-        return enterEmail(user.getEmail()).enterPassword(user.getPassword()).clickLogin();
     }
 
     public boolean isLoginPageVisible() {
