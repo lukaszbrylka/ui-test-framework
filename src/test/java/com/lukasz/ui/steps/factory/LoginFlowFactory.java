@@ -3,8 +3,11 @@ package com.lukasz.ui.steps.factory;
 import com.lukasz.ui.models.UserDTO;
 import com.lukasz.ui.pages.HomePage;
 import com.lukasz.ui.pages.LoginPage;
-import com.lukasz.ui.steps.*;
 
+import com.lukasz.ui.steps.GoToLoginPageStep;
+import com.lukasz.ui.steps.SubmitLoginStep;
+import com.lukasz.ui.steps.VerifyErrorMessageStep;
+import com.lukasz.ui.steps.VerifyUserIsLoggedInStep;
 import org.openqa.selenium.WebDriver;
 
 public class LoginFlowFactory {
