@@ -2,7 +2,7 @@ package com.lukasz.ui.tests;
 
 import com.lukasz.ui.data.UserFactory;
 import com.lukasz.ui.models.UserDTO;
-import com.lukasz.ui.steps.LoginSteps;
+import com.lukasz.ui.steps.factory.LoginFlowFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,19 +17,17 @@ public class LoginTest extends BaseTest {
 
     @Test
     void testExistingUserSuccessfulLogin() {
-        new LoginSteps(driver)
-                .goToLoginPage()
-                .submitLogin(existingUser)
-                .verifyUserIsLoggedIn(existingUser.getUsername());
+        LoginFlowFactory
+                .successfulLogin(driver, existingUser, existingUser.getUsername())
+                .act();
     }
 
     @Test
     void testExistingUserInvalidPasswordUnsuccessfulLogin() {
-        existingUser.setPassword("invalid");
-
-        new LoginSteps(driver)
-                .goToLoginPage()
-                .submitLogin(existingUser)
-                .verifyErrorMessage("Wrong email/password combination");
+        existingUser.
+                setPassword("invalid");
+        LoginFlowFactory.
+                unsuccessfulLogin(driver, existingUser, "Wrong email/password combination")
+                .act();
     }
 }
